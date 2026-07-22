@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "charts-learndocker.fullname" . }}
+  labels:
+    {{- include "charts-learndocker.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+      nodePort: {{ .Values.service.nodePort | default .Values.service.port }}
+  selector:
+    {{- include "charts-learndocker.selectorLabels" . | nindent 4 }}
